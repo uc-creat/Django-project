@@ -1,0 +1,21 @@
+---
+name: Checks
+
+on: [push] # run this on the following triggers (for now only push is specified)
+
+jobs:
+  test-lint:
+    name: Test and Lint
+    runs-on: ubuntu-20.04 # docker-compose comes pre-installed in this runner
+    steps:
+      - name: Login to Docker hub
+        uses: docker/login-action@v1
+        with:
+          username: ${{ secrets.DOCKERHUB_USER }}
+          password: ${{ secrets.DOCKERHUB_TOKEN }}
+      - name: Checkout
+        uses: actions/checkout@v2 # to checkout to the code or move out from actions
+      - name: Test
+        run: docker-compose run --rm app sh -c "python manage.py test" # runs unit test
+      - name: Lint
+        run: docker-compose run --rm app sh -c "flake8"
