@@ -1,7 +1,9 @@
 ---
 name: Checks
 
-on: [push] # run this on the following triggers (for now only push is specified)
+on: 
+  push:
+    branches: [ "main" ] # run this on the following triggers (for now only push is specified)
 
 jobs:
   test-lint:
